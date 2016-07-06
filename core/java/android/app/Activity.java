@@ -74,6 +74,7 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.os.RemoteException;
 import android.os.StrictMode;
+import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.Selection;
@@ -115,6 +116,8 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 
 import com.android.internal.util.screwd.ColorUtils;
+
+import org.android_x86.analytics.AnalyticsHelper;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -733,6 +736,7 @@ public class Activity extends ContextThemeWrapper
     boolean mFinished;
     boolean mStartedActivity;
     private boolean mDestroyed;
+    private boolean mAppsStatistics;
     private boolean mDoReportFullyDrawn = true;
     /** true if the activity is going through a transient pause */
     /*package*/ boolean mTemporaryPause = false;
@@ -986,9 +990,13 @@ public class Activity extends ContextThemeWrapper
             mVoiceInteractor.attachActivity(this);
         }
         mCalled = true;
+<<<<<<< HEAD
         mPreviousOrientation = getResources().getConfiguration().orientation;
         mScaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), mScaleGestureListener);
         mScaleGestureDetector.setQuickScaleEnabled(false);
+=======
+        mAppsStatistics = SystemProperties.getBoolean("persist.sys.apps_statistics", false);
+>>>>>>> 1ee1383... analytics: send anonymous usage information
     }
 
     /**
@@ -1262,6 +1270,12 @@ public class Activity extends ContextThemeWrapper
 
         mFragments.doLoaderStart();
 
+        // region @android-x86-analytics
+        // screen view
+        if (mAppsStatistics) {
+            AnalyticsHelper.hitScreen(this);
+        }
+        // endregion
         getApplication().dispatchActivityStarted(this);
     }
 
