@@ -990,13 +990,10 @@ public class Activity extends ContextThemeWrapper
             mVoiceInteractor.attachActivity(this);
         }
         mCalled = true;
-<<<<<<< HEAD
         mPreviousOrientation = getResources().getConfiguration().orientation;
         mScaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), mScaleGestureListener);
         mScaleGestureDetector.setQuickScaleEnabled(false);
-=======
         mAppsStatistics = SystemProperties.getBoolean("persist.sys.apps_statistics", false);
->>>>>>> 1ee1383... analytics: send anonymous usage information
     }
 
     /**
